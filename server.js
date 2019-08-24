@@ -26,6 +26,7 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
+
 // Connect to the Mongo DB
 // mongoose.connect("mongodb://localhost/fashionablyscraperdb", { useNewUrlParser: true });
 
@@ -157,11 +158,9 @@ app.post("/articles/saved/:id", function (req, res) {
 });
 
 // Route for saving/updating an Article's associated Note
-app.post("/articles/:id", function (req, res) {
-  console.log("Emily wants to see this")
-  // Create a new note and pass the req.body to the entry
-  console.log(req.body)
-  console.log("Emily wants to see this")
+app.post("/articles/note/:id", function (req, res) {
+  var note = req.body
+  console.log(note)
   db.Note.create(req.body)
     .then(function (dbNote) {
       // If a Note was created successfully, find one Article with an `_id` equal to `req.params.id`. Update the Article to be associated with the new Note

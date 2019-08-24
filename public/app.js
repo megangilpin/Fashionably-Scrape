@@ -60,27 +60,27 @@ $(".save_note").on("click", function () {
   
   // Run a POST request to change the note, using what's entered in the inputs
   $.ajax({
-    method: "POST",
-    url: "/articles/" + id,
+    type: "POST",
+    url: "/articles/note/" + id,
+    id: id,
     data: {
-      // Value taken from title input
-      // title: $("#titleinput").val(),
-      // Value taken from note textarea
       body: note
     }
   })
     // With that done
     .then(function (data) {
       // Log the response
-      
-      console.log("This is the data:" + data);
+      console.log("This is the data:")
+      console.log(data);
       // Empty the notes section
       // $("#bodyinput").empty();
+      $("#bodyinput").val("");
+      $("#createFormId").modal('hide');
     });
 
   // Also, remove the values entered in the input and textarea for note entry
   // $("#titleinput").val("");
-  $("#bodyinput").val("");
+  
 });
 
 $(".add_note").on("click", function () {
