@@ -37,7 +37,7 @@ app.set("view engine", "handlebars");
 
 // Routes
 
-app.get("/", function (req, res){
+app.get("/", function (req, res) {
   res.render("index")
 })
 
@@ -47,7 +47,7 @@ app.get("/scrape", function (req, res) {
   axios.get("https://www.highsnobiety.com/style/").then(function (response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
-
+    var results = []
     // Now, we grab every h2 within an article tag, and do the following:
     $("article.teaser").each(function (i, element) {
       // Save an empty result object
@@ -65,20 +65,22 @@ app.get("/scrape", function (req, res) {
       // result.image = $(this)
       //   .children("img")
       //   .attr("")
-      // Create a new Article using the `result` object built from scraping
-      db.Article.create(result)
-        .then(function (dbArticle) {
-          // View the added result in the console
-          var allArticles = {
-            articles: dbArticle
-          };
-          console.log(allArticles)
-        })
-        .catch(function (err) {
-          // If an error occurred, log it
-          console.log(err);
-        });
+      results.push(result)
     });
+
+    // Create a new Article using the `result` object built from scraping
+    db.Article.create(results)
+      .then(function (dbArticle) {
+        // View the added result in the console
+        var allArticles = {
+          articles: dbArticle
+        };
+        res.render("index", allArticles)
+      })
+      .catch(function (err) {
+        // If an error occurred, log it
+        console.log(err);
+      }); 
   });
 });
 
@@ -88,7 +90,10 @@ app.get("/articles", function (req, res) {
   db.Article.find({})
     .then(function (dbArticle) {
       // If we were able to successfully find Articles, send them back to the client
- 
+      var allArticles = {
+        articles: dbArticle
+      };
+      res.render("index", allArticles)
     })
     .catch(function (err) {
       // If an error occurred, send it to the client
