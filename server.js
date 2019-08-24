@@ -55,10 +55,13 @@ app.get("/scrape", function (req, res) {
 
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this)
-        .children("span.teaser__title__link")
-      result.link = $(this)
+        .children(".teaser__link-wrap")
+        .children(".teaser__info-wrap")
         .children("a")
-        .attr("href");
+        .children("span")
+        .text().trim();
+      result.link = $(this)
+        .attr("data-url");
       // result.image = $(this)
       //   .children("img")
       //   .attr("")
@@ -66,16 +69,16 @@ app.get("/scrape", function (req, res) {
       db.Article.create(result)
         .then(function (dbArticle) {
           // View the added result in the console
-          console.log(dbArticle);
+          var allArticles = {
+            articles: dbArticle
+          };
+          console.log(allArticles)
         })
         .catch(function (err) {
           // If an error occurred, log it
           console.log(err);
         });
     });
-
-    // Send a message to the client
-    res.send("Scrape Complete");
   });
 });
 
@@ -85,7 +88,7 @@ app.get("/articles", function (req, res) {
   db.Article.find({})
     .then(function (dbArticle) {
       // If we were able to successfully find Articles, send them back to the client
-      res.json(dbArticle);
+ 
     })
     .catch(function (err) {
       // If an error occurred, send it to the client
