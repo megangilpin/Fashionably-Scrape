@@ -11,7 +11,7 @@ var cheerio = require("cheerio");
 // Require all models
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();
@@ -70,12 +70,12 @@ app.get("/scrape", function (req, res) {
 
     // Create a new Article using the `result` object built from scraping
     db.Article.create(results)
-      .then(function (dbArticle) {
+      .then(function (results) {
         // View the added result in the console
         var allArticles = {
-          articles: dbArticle
+          articles: results
         };
-        res.render("index", allArticles)
+        res.send(allArticles)
       })
       .catch(function (err) {
         // If an error occurred, log it
@@ -88,6 +88,7 @@ app.get("/scrape", function (req, res) {
 app.get("/articles", function (req, res) {
   // Grab every document in the Articles collection
   db.Article.find({})
+    // .sort({ '_id': -1 }).limit(12)
     .then(function (dbArticle) {
       // If we were able to successfully find Articles, send them back to the client
       var allArticles = {
@@ -102,11 +103,25 @@ app.get("/articles", function (req, res) {
 });
 
 // Route for grabbing a specific Article by id, populate it with it's note
-app.get("/articles/:id", function (req, res) {
+app.post("/articles/:id", function (req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
   db.Article.findOne({ _id: req.params.id })
     // ..and populate all of the notes associated with it
     .populate("note")
+    .then(function (dbArticle) {
+      // If we were able to successfully find an Article with the given id, send it back to the client
+      res.json(dbArticle);
+    })
+    .catch(function (err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});
+
+// Route for grabbing a specific Article by id, populate it with it's note
+app.post("/articles/saved/:id", function (req, res) {
+  // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+  db.Article.findOneAndUpdate({ _id: req.params.id }, {saved: true },{new: true})
     .then(function (dbArticle) {
       // If we were able to successfully find an Article with the given id, send it back to the client
       res.json(dbArticle);
