@@ -1,12 +1,3 @@
-// Grab the articles as a json
-$.getJSON("/articles", function (data) {
-  // For each one
-  for (var i = 0; i < data.length; i++) {
-    // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
-  }
-});
-
 
 // Scrapes articles on click
 $(".scrape_articles").on("click", function () {
@@ -58,7 +49,7 @@ $(".save_note").on("click", function () {
   var note = $("#bodyinput").val()
   console.log("Before the ajax call" + note + id)
   
-  // Run a POST request to change the note, using what's entered in the inputs
+  // Run a POST to save the note to the database
   $.ajax({
     type: "POST",
     url: "/articles/note/" + id,
@@ -77,16 +68,39 @@ $(".save_note").on("click", function () {
       $("#bodyinput").val("");
       $("#createFormId").modal('hide');
     });
-
-  // Also, remove the values entered in the input and textarea for note entry
-  // $("#titleinput").val("");
-  
 });
 
+  // LIST-ITEM EVENT HANDLERS
 $(".add_note").on("click", function () {
   var id = $(this).attr("data-id");
   console.log(id)
 // Click to only happen on announce links
   $('#myId').attr("data-modalID", id);
   // $('#createFormId').modal('show');
+});
+
+$('.list-group-item').on('mouseenter', function (e) {
+  $(this).addClass('mouseover');
+}).on('mouseleave', function (e) {
+  $(this).removeClass('mouseover');
+});
+
+$('.list-group-item').on('click', function () {
+  console.log('clicked item');
+});
+
+// LIST-ITEM REMOVE BUTTON EVENT HANDLERS
+
+$('.remove-item').on('mouseenter', function (e) {
+  $(this).addClass('mouseover');
+  $(this).parent().mouseleave();
+}).on('mouseleave', function (e) {
+  $(this).removeClass('mouseover');
+  $(this).parent().mouseenter();
+});
+
+$('.remove-item').on('click', function (e) {
+  console.log('clicked remove-item btn');
+  e.stopPropagation();
+  
 });

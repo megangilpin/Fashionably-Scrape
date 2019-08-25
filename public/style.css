@@ -37,3 +37,13 @@ footer p {
 }
 
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+.list-group-item.mouseover {
+  background: #fafafa;
+  cursor: pointer;
+}
+
+.list-group-item .remove-item.mouseover {
+  background: rgb(172, 163, 163);
+  cursor: pointer;
+}
