@@ -102,5 +102,14 @@ $('.remove-item').on('mouseenter', function (e) {
 $('.remove-item').on('click', function (e) {
   console.log('clicked remove-item btn');
   e.stopPropagation();
+  var id = $(this).attr("data-id");
+  $.ajax({
+    method: "PUT",
+    url: "/articles/note/" + id
+  })
+    // With that done, add the note information to the page
+    .then(function (data) {
+      location.reload()
+    });
   
 });

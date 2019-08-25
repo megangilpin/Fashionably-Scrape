@@ -130,23 +130,6 @@ app.get("/articles/saved", function (req, res) {
 });
 
 // Route for grabbing a specific Article by id, populate it with it's note
-app.post("/articles/:id", function (req, res) {
-  // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
-  db.Article.findOne({ _id: req.params.id })
-    // ..and populate all of the notes associated with it
-    .populate("note")
-    .then(function (dbArticle) {
-      console.log(dbArticle)
-      // If we were able to successfully find an Article with the given id, send it back to the client
-      res.json(dbArticle);
-    })
-    .catch(function (err) {
-      // If an error occurred, send it to the client
-      res.json(err);
-    });
-});
-
-// Route for grabbing a specific Article by id, populate it with it's note
 app.post("/articles/saved/:id", function (req, res) {
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
   db.Article.findOneAndUpdate({ _id: req.params.id }, {saved: true },{new: true})
@@ -174,6 +157,19 @@ app.post("/articles/note/:id", function (req, res) {
     })
     .then(function (dbArticle) {
       // If we were able to successfully update an Article, send it back to the client
+      res.json(dbArticle);
+    })
+    .catch(function (err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});
+
+// Route for deleting the note
+app.put("/articles/note/:id", function (req, res) {
+  // Grab every document in the Articles collection
+  db.Note.remove({_id: req.params.id})
+    .then(function (dbArticle) {
       res.json(dbArticle);
     })
     .catch(function (err) {

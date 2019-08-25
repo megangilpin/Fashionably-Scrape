@@ -87,7 +87,7 @@
                 {{#each this.note}}
                 <li class="list-group-item">
                   <span class="note">{{this.body}}</span>
-                  <button class="btn btn-default btn-xs pull-right remove-item">
+                  <button class="btn btn-default btn-xs pull-right remove-item" data-id={{this.id}} >
                     <i class="fa fa-trash-o"></i>
                   </button>
                 </li>
