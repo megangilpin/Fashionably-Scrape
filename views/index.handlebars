@@ -3,28 +3,16 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-8 col-md-7 py-4">
-          <h4 class="text-white">About</h4>
-          <p class="text-muted">Add some information about the album below, the author, or any other background context.
-            Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some
-            social networking sites or contact information.</p>
-        </div>
-        <div class="col-sm-4 offset-md-1 py-4">
-          <h4 class="text-white">Contact</h4>
-          <ul class="list-unstyled">
-            <li><a href="#" class="text-white">Follow on Twitter</a></li>
-            <li><a href="#" class="text-white">Like on Facebook</a></li>
-            <li><a href="#" class="text-white">Email me</a></li>
-          </ul>
+          <p class="text-muted">Web app that lets users view and leave comments on the latest news from <a href="https://www.highsnobiety.com/style/" class="text-white navbar-brand d-flex align-items-center">
+          </svg>
+          <strong>HIGHSNOBIETY</strong>
+          </a></p>
         </div>
       </div>
     </div>
   </div>
   <div class="navbar navbar-dark bg-dark box-shadow">
     <div class="container d-flex justify-content-between">
-      <a href="#" class="navbar-brand d-flex align-items-center">
-        </svg>
-        <strong>Fashionably Scrape</strong>
-      </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader"
         aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -37,10 +25,11 @@
 
   <section class="jumbotron text-center">
     <div class="container">
-      <h1 class="jumbotron-heading">Fashinably Scrape</h1>
+      <h1 class="jumbotron-heading">Fashionably Scrape</h1>
       <p class="lead text-muted">Find the hottest news in fashion</p>
       <p>
-        <a href="/articles" class="scrape_articles btn btn-primary my-2">Show New Articles</a>
+        {{!-- href="/articles" --}}
+        <a  href="/articles" class="scrape_articles btn btn-dark my-2">Show New Articles</a>
         <a href="/articles/saved" class="view-saved btn btn-secondary my-2">View Saved Articles</a>
       </p>
     </div>
@@ -54,14 +43,13 @@
         {{#each articles}}
         <div class="col-md-4">
           <div class="article card mb-4 box-shadow" data-id={{this.id}}>
-            {{!-- <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
-              alt="Card image cap"> --}}
+            <img class="card-img-top" sizes="(min-width: 1260px) 1200px, (min-width: 1024px) 714px, (min-width: 640px) 75vw, 100vw"src={{this.image}}
+              alt="Article Img">
             <div class="card-body">
               <p class="card-text">{{this.title}}</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="save_article btn btn-sm btn-outline-secondary" data-id={{this.id}}>Save Article</button>
-                  {{!-- <button type="button" class="save_article btn btn-sm btn-outline-secondary" data-id={{this.id}}>Save Article</button>              --}}
                 </div>
               </div>
             </div>
@@ -80,8 +68,5 @@
     <p class="float-right">
       <a href="#">Back to top</a>
     </p>
-    <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-    <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting
-        started guide</a>.</p>
   </div>
 </footer>

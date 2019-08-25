@@ -68,12 +68,11 @@ app.get("/scrape", function (req, res) {
         .text().trim();
       result.link = $(this)
         .attr("data-url");
-      // result.image = $(this)
-      //   .children("img")
-      //   .attr("")
+      result.image = $(this)
+        .find("img")
+        .attr("src");
       results.push(result)
     });
-
     // Create a new Article using the `result` object built from scraping
     db.Article.create(results)
       .then(function (results) {
@@ -94,7 +93,7 @@ app.get("/scrape", function (req, res) {
 app.get("/articles", function (req, res) {
   // Grab every document in the Articles collection
   db.Article.find({})
-    // .sort({ '_id': -1 }).limit(50)
+    .sort({ '_id': -1 }).limit(20)
     .then(function (dbArticle) {
       // If we were able to successfully find Articles, send them back to the client
       var allArticles = {
