@@ -66,6 +66,7 @@ $(".save_note").on("click", function () {
       // $("#bodyinput").empty();
       $("#bodyinput").val("");
       $("#createFormId").modal('hide');
+      location.reload()
     });
 });
 
